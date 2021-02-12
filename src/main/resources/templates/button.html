@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<title>Getting Started: Handling Form Submission</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:fragment="button" >
+    <form action="#" th:action="@{/home}" method="post">
+    <input type="submit" value="Add an Address Book" >
+    </form>
+</div>
+</body>
+</html>

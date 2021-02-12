@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://thymeleaf.org">
+<title>Getting Started: Handling Form Submission</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:fragment="button" >
+<form action="#" th:action="@{/home}" th:object="${buddyInfo}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}"><br>
+    <label for="address">Address:</label>
+    <input type="text" id="address" th:field="*{address}"><br>
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}"><br>
+    <input type="submit" value="Add Buddy Info">
+</form>
+</div>
+</body>
+</html>
