@@ -1,8 +1,12 @@
 language: java
+jdk:
+  - oraclejdk13
 deploy:
   provider: heroku
   api-key: $HEROKU_API_KEY
   app: labaddressbook
   on:
     branch: main
+before_install:
+  - chmod +x mvnw
 dist: trusty
