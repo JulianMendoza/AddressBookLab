@@ -4,15 +4,19 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 public class ControllerRest {
+    private int addressID;
     @Autowired
-    private BuddyInfoRepository buddyInfoRepository;
-    @PostMapping("/home")
-    public List<BuddyInfo> listAll(@ModelAttribute BuddyInfo buddyInfo, Model model){
-        buddyInfoRepository.save(buddyInfo);
-        return buddyInfoRepository.findAll();
+    private AddressBookRepository addressBookRepository;
+
+    @GetMapping("/addressBook")
+    public AddressBook listBook(@RequestParam("id") Long id) {
+        for (AddressBook b : addressBookRepository.findAll()) {
+            if (b.getId() == id) {
+                return b;
+            }
+        }
+        return null;
     }
 }

@@ -1,11 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="https://thymeleaf.org">
+<head>
 <title>Getting Started: Handling Form Submission</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="hello.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div th:fragment="button" >
-<form action="#" th:action="@{/home}" th:object="${buddyInfo}" method="post">
+<form action="#" th:action="@{/addressBook}" th:object="${formData}" method="post">
+    <label for="addressBookID">addressBookID</label>
+    <input type="number" id="addressBookID" th:field="*{id}"><br>
     <label for="name">Name:</label>
     <input type="text" id="name" th:field="*{name}"><br>
     <label for="address">Address:</label>
@@ -14,6 +19,13 @@
     <input type="tel" id="phoneNumber" th:field="*{phoneNumber}"><br>
     <input type="submit" value="Add Buddy Info">
 </form>
+    <div>
+        <label for="id">addressBookID</label>
+        <input type="text" id="id"><br>
+        <a id="load" href="#">Render SPA</a>
+        <p class="addressBook-id"></p>
+        <p class="addressBook-buddies"></p>
+    </div>
 </div>
 </body>
 </html>

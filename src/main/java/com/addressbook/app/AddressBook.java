@@ -11,14 +11,17 @@ public class AddressBook extends DefaultListModel<String> {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<BuddyInfo> buddies;
     private String name;
 
     public AddressBook() {
         buddies = new LinkedList<BuddyInfo>();
     }
-
+    public AddressBook(Long id){
+        this.id=id;
+        buddies = new LinkedList<BuddyInfo>();
+    }
     public Long getId() {
         return id;
     }
@@ -43,6 +46,9 @@ public class AddressBook extends DefaultListModel<String> {
     }
     public void removeBuddy(BuddyInfo buddy) {
         buddies.remove(buddy);
+    }
+    public void setId(Long id){
+        this.id=id;
     }
 
 }
