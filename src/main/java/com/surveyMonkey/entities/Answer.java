@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Answer implements Serializable {
+
     private static final long serialVersionUID = -6024463549612035738L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +19,10 @@ public class Answer implements Serializable {
     public Answer() {
     }
 
+    public Answer(String s) {
+        this.answer = s;
+    }
+
     public String getAnswer() {
         return answer;
     }
@@ -25,4 +30,5 @@ public class Answer implements Serializable {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
 }

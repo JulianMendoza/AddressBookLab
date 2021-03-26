@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class OptionQuestion extends Question {
+
     private static final long serialVersionUID = 1795113345322280778L;
     @ElementCollection
     private List<String> options = new ArrayList<>();

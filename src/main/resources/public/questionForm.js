@@ -82,16 +82,20 @@ function deleteDiv(val) {
 function validate() {
     if ($("#password").val() === "") {
         alert("Please create a password!");
+        return false;
     }
     if ($("#password").val() !== $("#password2").val()) {
         alert("Please make sure your passwords match!");
+        return false;
     }
     if ($("#numQuestions").val() < 0 || $("#numQuestions").val() > 15 || $("#numQuestions").val() === "") {
-        alert("Invalid amount of questions!")
+        alert("Invalid amount of questions!");
+        return false;
     }
     console.log($("#question-div0").length);
     if ($("#question-div0").length === 0) {
         alert("Please enter some questions!");
+        return false;
     }
     for (let i = 0; i < x; i++) {
         let qDiv = $("#question-div" + i);
@@ -149,9 +153,11 @@ function createJson() {
         data: surveyData,
         dataType: 'json',
         success: (e) => {
-            $('body').html("<div class=\"container text-center mt-5 pt-5\"><div class=\"card p-5\"><div class=\"row px-5\"><h1>${e.title} Survey Successfully Created !</h1> </div> <div class=\"row my-4 row px-5\"> <h4> Here is your official survey link</h4> </div> <div class=\"row row px-5\"> <p class=\"text-muted text-small\">Share this with participants</p> </div> <div class=\"row my-4 row px-5\"> <div class=\"input-group mb-3\"><input value=\"${window.location.hostname + '/survey/' + e.code}\" type=\"text\" id=\"copy\" style=\"border: solid 1px grey; border-radius: 3px\" class=\"form-control-plaintext px-3\" aria-label=\"Survey Link\" aria-describedby=\"survey-link\" readonly> <button class=\"btn btn-primary\" type=\"button\" onclick=\"copy()\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Copied !\">Copy !</button></div></div></div></div>");
+            $('body').html('<div class="container text-center mt-5 pt-5"> <div class="card p-5"> <div class="row px-5"> <h1>'+e.title+' Survey Successfully Created !</h1> </div> <div class="row my-4 row px-5"> <h4> Here is your official survey link</h4> </div> <div class="row row px-5"> <p class="text-muted text-small">Share this with participants</p> </div> <div class="row my-4 row px-5"> <div class="input-group mb-3"> <input value="'+window.location.hostname+'/survey/' + e.code+'" type="text" id="copy" style="border: solid 1px grey; border-radius: 3px" class="form-control-plaintext px-3" aria-label="Survey Link" aria-describedby="survey-link" readonly> <button class="btn btn-primary" type="button" onclick="copy()" data-toggle="tooltip" data-placement="top" title="Copied !">Copy !</button> </div> </div> </div> </div>');
+            console.log(e)
         },
         fail: (e) => {
+            console.log(e);
             alert("SOMETHING WENT WRONG!");
         }
     });
@@ -172,7 +178,7 @@ function copy() {
     document.execCommand("copy");
 
     /* Alert the copied text */
-    alert("Copied the text: " + copyText.value);
+    alert("Link Copied!");
 }
 
 function questionTypeHelper(num) {

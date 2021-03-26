@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Question implements Serializable {
+
     private static final long serialVersionUID = 6023023726190001624L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

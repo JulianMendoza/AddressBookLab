@@ -1,16 +1,33 @@
 package com.surveyMonkey.controllers;
 
-import com.surveyMonkey.entities.*;
-import com.surveyMonkey.repository.SurveyRepository;
-import com.surveyMonkey.util.QuestionHelper;
-import com.surveyMonkey.util.ResponseHelper;
-import com.surveyMonkey.util.SurveyHelper;
+import static com.surveyMonkey.util.Constants.HISTOGRAM;
+import static com.surveyMonkey.util.Constants.OPEN_ENDED;
+import static com.surveyMonkey.util.Constants.OPTION;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import static com.surveyMonkey.util.Constants.*;
+import com.surveyMonkey.entities.Answer;
+import com.surveyMonkey.entities.HistoQuestion;
+import com.surveyMonkey.entities.OpenEndedQuestion;
+import com.surveyMonkey.entities.OptionQuestion;
+import com.surveyMonkey.entities.QuestionAnswerWrapper;
+import com.surveyMonkey.entities.Survey;
+import com.surveyMonkey.repository.SurveyRepository;
+import com.surveyMonkey.util.AnswerHelper;
+import com.surveyMonkey.util.DataRetrieval;
+import com.surveyMonkey.util.QuestionHelper;
+import com.surveyMonkey.util.ResponseHelper;
+import com.surveyMonkey.util.SurveyHelper;
 
 @Controller
 public class AdminController {
@@ -33,11 +50,6 @@ public class AdminController {
         return "questions";
     }
 
-    @PostMapping("/survey")
-    public String listSurvey(@RequestParam("title") String title, Model model) {
-        return "questions";
-    }
-
     @GetMapping("/survey/{surveyCode}")
     public String showSurvey(@PathVariable String surveyCode, Model model) {
         Survey survey = new Survey();
@@ -50,18 +62,25 @@ public class AdminController {
         return "show";
     }
 
-    @GetMapping("/view")
-    public String test() {
-        return "success";
-    }
-
     @PostMapping({"/surveyResults"})
-    public String surveyResult() {
+    public String surveyResult(@RequestParam("surveyCode") String surveyCode, @RequestParam("surveyPassword") String surveyPassword, Model model) {
+        model.addAttribute("surveyCode", surveyCode);
         return "results";
     }
 
+    @PostMapping({"/surveyResult"})
     @ResponseBody
+    public List<QuestionAnswerWrapper> surveyResult(@RequestBody DataRetrieval dataRetrieval, Model model) {
+        for (Survey survey : surveyRepository.findAll()) {
+            if (survey.getSurveyCode().equals(dataRetrieval.getData())) {
+                return survey.getSurvey();
+            }
+        }
+        return null;
+    }
+
     @PostMapping({"/create"})
+    @ResponseBody
     public ResponseHelper createSurvey(@RequestBody SurveyHelper surveyHelper, Model model) {
         Survey survey = new Survey(surveyHelper.getTitle(), surveyHelper.getPassword());
         for (QuestionHelper q : surveyHelper.getQuestions()) {
@@ -82,13 +101,28 @@ public class AdminController {
         return new ResponseHelper(survey.getSurveyCode(), survey.getTitle());
     }
 
-    @ResponseBody
     @GetMapping("/testQuestions")
+    @ResponseBody
     public Survey viewQuestions(@RequestParam("title") String title) {
         for (Survey s : surveyRepository.findAll()) {
             return s;
         }
         return null;
+    }
+
+    @PostMapping({"/answersStored"})
+    @ResponseBody
+    public void answerLinkedQuestion(@RequestBody AnswerHelper answerHelper, Model model) {
+        for (Survey s : surveyRepository.findAll()) {
+            if (s.getSurveyCode().equals(answerHelper.getSurveyCode())) {
+                for (int i = 0; i < answerHelper.getAnsweredStored().size(); i++) {
+                    if (s.getSurvey().get(i).getqWrapperid() == answerHelper.getAnsweredStored().get(i).getQuestionId()) {
+                        s.getSurvey().get(i).getAnswers().add(new Answer(answerHelper.getAnsweredStored().get(i).getAnswer()));
+                        surveyRepository.save(s);
+                    }
+                }
+            }
+        }
     }
 
 }

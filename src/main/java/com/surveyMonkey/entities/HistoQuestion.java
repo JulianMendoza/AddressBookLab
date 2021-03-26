@@ -4,11 +4,14 @@ import javax.persistence.Entity;
 
 @Entity
 public class HistoQuestion extends Question {
+
     private static final long serialVersionUID = 5551750221995506502L;
     private int minVal;
     private int maxVal;
     private int stepSize;
+	public HistoQuestion() {
 
+	}
     public HistoQuestion(String question, int minVal, int maxVal, int stepSize) {
         super(question);
         setMinVal(minVal);
@@ -38,10 +41,6 @@ public class HistoQuestion extends Question {
 
     public void setStepSize(int stepSize) {
         this.stepSize = stepSize;
-    }
-
-    public HistoQuestion() {
-
     }
 
     @Override

@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Survey implements Serializable {
+
     private static final long serialVersionUID = -7426934374543805936L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

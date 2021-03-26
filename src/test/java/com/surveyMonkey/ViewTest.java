@@ -44,7 +44,6 @@ public class ViewTest {
         //page updated
         assertTrue(page.getHtmlElementById("question-div12").isDisplayed());
         assertThrows(ElementNotFoundException.class,()->{
-                page.getHtmlElementById("question-div13");});
-
+            page.getHtmlElementById("question-div13");});
     }
 }

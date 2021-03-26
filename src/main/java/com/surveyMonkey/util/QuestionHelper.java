@@ -57,5 +57,4 @@ public class QuestionHelper {
     public void setChoices(List<String> choices) {
         this.choices = choices;
     }
-
 }

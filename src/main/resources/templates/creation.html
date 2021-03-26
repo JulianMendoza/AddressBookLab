@@ -26,10 +26,13 @@
         <div class="col col-6">
             <div class="card p-5">
                 <h5 class="card-title">Search existing surveys</h5>
-                <form action="/data" method="get">
+                <form action="/surveyResults" method="post">
                     <div class="my-3">
-                        <label for="title2" class="form-label">Search by title:</label>
-                        <input type="text" class="form-control" id="title2" name="title2">
+                        <label for="surveyCode" class="form-label">Search by survey code:</label>
+                        <input type="text" class="form-control" id="surveyCode" name="surveyCode" required="true">
+                        <label for="surveyPassword" class="form-label">Enter survey password:</label>
+                        <input type="password" class="form-control" id="surveyPassword" name="surveyPassword"
+                               required="true">
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-secondary">Search Surveys</button>
